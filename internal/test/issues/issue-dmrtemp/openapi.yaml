@@ -1,0 +1,29 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: "Cannot override `prefer-skip-optional-pointer-on-container-types on` query parameters"
+paths:
+  /root:
+    get:
+      operationId: getRoot
+      description: |
+        A getter taking an optional string and an optional list of strings as
+        query parameters.
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: string
+        - in: query
+          name: tags
+          schema:
+            type: array
+            items:
+              type: string
+            # The top-level config specifies
+            #    prefer-skip-optional-pointer-on-container-types: true
+            # but for this specific field, we *do want* the pointer.
+            x-go-type-skip-optional-pointer: false
+      responses:
+        "200":
+          description: Some data
